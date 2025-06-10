@@ -18,22 +18,16 @@ fi
 
 # Fetch from sh arguments or set defaults
 if [ $# -gt 0 ]; then
-  INPUT=$1
+  COMMAND=$1
+else
+  COMMAND="from-internal-to-ieee754a"
+fi
+
+if [ $# -gt 1 ]; then
+  INPUT=$2
 else
   INPUT="8F7FFF00"
 fi
 
-if [ $# -gt 1 ]; then
-  INPUT_ENCODING=$2
-else
-  INPUT_ENCODING="INTERNAL"
-fi
-
-if [ $# -gt 2 ]; then
-  OUTPUT_ENCODING=$3
-else
-  OUTPUT_ENCODING="IEEE754"
-fi
-
 # Run the CRC calculation with the specified parameters
-java -jar ./build/libs/modbus-binary-formater.jar -i $INPUT_ENCODING -o $OUTPUT_ENCODING $INPUT
+java -jar ./build/libs/modbus-binary-formater.jar "$COMMAND" "$INPUT"
