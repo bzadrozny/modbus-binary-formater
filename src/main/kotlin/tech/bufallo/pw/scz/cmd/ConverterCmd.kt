@@ -10,6 +10,10 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
 import tech.bufallo.pw.scz.converter.BiDirectConverter
 import tech.bufallo.pw.scz.converter.Encoding
+import tech.bufallo.pw.scz.converter.StringToBinaryConverter
+import tech.bufallo.pw.scz.converter.StringToBinaryConverter.convertStringToUInt
+import tech.bufallo.pw.scz.converter.StringToBinaryConverter.validateBinaryString
+import tech.bufallo.pw.scz.converter.StringToBinaryConverter.validateHexString
 
 class ConverterCmd : CliktCommand("modbus-binary-formater.jar") {
 
@@ -17,13 +21,16 @@ class ConverterCmd : CliktCommand("modbus-binary-formater.jar") {
 
     private val data: String by argument("data", help = "Data to convert in hexadecimal notation (e.g. '477F FF00')")
         .convert { it.replace(" ", "") }
+        .convert { it.uppercase() }
         .validate {
-            if (
-                it.isEmpty() ||
-                it.length > 8 ||
-                !it.all { char -> char.isDigit() || (char in 'A'..'F') || (char in 'a'..'f') }
-            ) {
-                fail("Input data is required, up to 4 bytes and must be in hexadecimal notation, e.g. '477FFF00'")
+            if (!validateBinaryString(data) && !validateHexString(data)) {
+                fail(
+                    """
+                        |Input data is required, must be in hexadecimal notation (up to 8 hex digits) or natural binary (up to 32 bits) 
+                        |e.g. '477FFF00' or '01000001010000100100001100001000'
+                        |Current input: '$data'
+                        |""".trimMargin()
+                )
             }
         }
 
@@ -46,22 +53,21 @@ class ConverterCmd : CliktCommand("modbus-binary-formater.jar") {
         }
 
     override fun run() {
-        println("Source data: 0x${data.uppercase()}")
+        println("Source data: ${data.uppercase()}")
 
         if (intputEncoding == outputEncoding) {
             println("Input and output encodings are the same: ${intputEncoding.name}. No conversion needed.")
         }
 
-        val inputValue = data
-            .padStart(8, '0')
-            .toUInt(16)
+        val inputValue = convertStringToUInt(data)
 
         val outputValue = when (intputEncoding) {
             Encoding.INTERNAL -> converter.internalToIeee(inputValue)
             Encoding.IEEE754 -> converter.ieeeToInternal(inputValue)
             Encoding.UNKNOWN -> throw IllegalArgumentException("Unsupported input encoding format: $intputEncoding")
         }
-        
-        println("Converted data: 0x${outputValue.toHexString().uppercase()}")
+
+        println("Converted data (hex): ${outputValue.toHexString().uppercase()}")
+        println("Converted data (bin): ${outputValue.toString(2)}")
     }
 }

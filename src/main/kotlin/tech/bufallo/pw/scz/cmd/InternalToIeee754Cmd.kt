@@ -32,7 +32,7 @@ class InternalToIeee754Cmd : CliktCommand("from-internal-to-ieee754") {
         }
 
     override fun run() {
-        println("Source data: 0x${data.uppercase()}")
+        println("Source data: ${data.uppercase()}")
 
         val inputValue = convertStringToUInt(data)
         val outputValue = converter.internalToIeee(inputValue)
