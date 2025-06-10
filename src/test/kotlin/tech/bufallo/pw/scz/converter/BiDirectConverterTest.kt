@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
-class ConverterBiDirectTest {
+class BiDirectConverterTest {
 
-    private val converter = ConverterBiDirect()
+    private val converter = BiDirectConverter()
 
     companion object {
         @JvmStatic
@@ -32,6 +32,8 @@ class ConverterBiDirectTest {
             "81100000",
             "83160000",
             "8F7FFF19",
+            "41100000",
+            "477FFF00",
             "90000000",
             "7F800000", // Infinity
             "7F800001", // NaN

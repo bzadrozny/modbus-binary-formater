@@ -1,6 +1,6 @@
 package tech.bufallo.pw.scz.converter
 
-class ConverterBiDirect {
+class BiDirectConverter {
 
     private val zeroMask: UInt = 0x00000000U
     private val oneMask: UInt = 0xFFFFFFFFU

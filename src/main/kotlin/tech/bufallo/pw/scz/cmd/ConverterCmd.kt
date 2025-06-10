@@ -8,12 +8,12 @@ import com.github.ajalt.clikt.parameters.options.convert
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.validate
-import tech.bufallo.pw.scz.converter.ConverterBiDirect
+import tech.bufallo.pw.scz.converter.BiDirectConverter
 import tech.bufallo.pw.scz.converter.Encoding
 
 class ConverterCmd : CliktCommand("modbus-binary-formater.jar") {
 
-    private val converter = ConverterBiDirect()
+    private val converter = BiDirectConverter()
 
     private val data: String by argument("data", help = "Data to convert in hexadecimal notation (e.g. '477F FF00')")
         .convert { it.replace(" ", "") }
