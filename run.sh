@@ -20,7 +20,7 @@ fi
 if [ $# -gt 0 ]; then
   COMMAND=$1
 else
-  COMMAND="from-internal-to-ieee754a"
+  COMMAND="from-internal-to-ieee754"
 fi
 
 if [ $# -gt 1 ]; then
