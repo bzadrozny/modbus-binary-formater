@@ -37,9 +37,8 @@ kotlin {
 
 tasks {
     named<ShadowJar>("shadowJar") {
-        archiveFileName.set("crc-calculator.jar")
+        archiveFileName.set("modbus-binary-formater.jar")
         mergeServiceFiles()
-        exclude("**/CrcCalculatorTest.class")
         exclude("**/kotlin/test/**")
         exclude("**/org/junit/**")
     }

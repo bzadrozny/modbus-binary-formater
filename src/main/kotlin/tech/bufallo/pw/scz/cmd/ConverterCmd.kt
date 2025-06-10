@@ -11,7 +11,7 @@ import com.github.ajalt.clikt.parameters.options.validate
 import tech.bufallo.pw.scz.converter.ConverterBiDirect
 import tech.bufallo.pw.scz.converter.Encoding
 
-class ConverterCmd : CliktCommand(name = "convert") {
+class ConverterCmd : CliktCommand("modbus-binary-formater.jar") {
 
     private val converter = ConverterBiDirect()
 
